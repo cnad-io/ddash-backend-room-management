@@ -68,7 +68,7 @@ public class RoomResource {
 	
 
 	@POST
-	@Path("/Create")
+	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createRoom() {
@@ -142,7 +142,7 @@ public class RoomResource {
 			LOGGER.debug("Find user executed.");
 			if (entity == null) {
 				LOGGER.warn("User with id of " + userId + " does not exist.");
-				return error(Status.NOT_FOUND.getStatusCode(), "User with id of " + userId + " does not exist.");
+				return error(Status.NOT_FOUND.getStatusCode(), "User with id of " + userId + " does not exist in this room.");
 			}
 			LOGGER.trace(entity);
 			roomController.removeUser(entity);
