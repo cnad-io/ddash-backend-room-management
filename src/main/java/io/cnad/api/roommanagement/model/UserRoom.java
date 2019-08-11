@@ -1,43 +1,38 @@
 package io.cnad.api.roommanagement.model;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
-import org.hibernate.annotations.GenericGenerator;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "roomId", "userId" })
+@JsonPropertyOrder({ "roomId", "userId" , "score" })
 @NamedQueries({ 
 	@NamedQuery(name = "UserRooms.findAll", query = "SELECT f FROM UserRoom f")
 })
-public class UserRoom {
+public class UserRoom implements Serializable{
 
-	@Id
-	@JsonProperty("roomId")
-
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @JsonBackReference
+	private Room room;
 	
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(
-		name = "UUID",
-		strategy = "org.hibernate.id.UUIDGenerator"
-	)
-	@Column(name = "roomId", updatable = false, nullable = false)
-	private UUID roomId;
-	
-	@Id
-	@JsonProperty("userId")
-	private String userId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JsonBackReference
+	private User user;
 
 	private long score;
 	
@@ -57,36 +52,33 @@ public class UserRoom {
 	}
 
 	
-	public UserRoom(UUID roomId, String userId) {
+	public UserRoom(Room room, User user) {
 		super();
-		this.roomId = roomId;
-		this.userId = userId;
+		this.user = user;
+		this.room = room;
+	}
+	@JsonProperty("roomid")
+	public Room getRoom() {
+		return room;
+	}
+	
+	
+	@JsonProperty("userid")
+	public User getUser() {
+		return user;
 	}
 
-	@JsonProperty("roomId")
-	public UUID getRoomId() {
-		return roomId;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
-	@JsonProperty("roomId")
-	public void setRoomId(UUID roomId) {
-		this.roomId = roomId;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	@JsonProperty("userId")
-	public String getUserId() {
-		return userId;
-	}
-
-	@JsonProperty("userId")
-	public void setRoomId(String userId) {
-		this.userId = userId;
-	}
-
 
 	@Override
 	public String toString() {
-		return "UsersRoom [roomId=" + roomId + ", userId=" + userId + "]";
+		return "UsersRoom [room=" + room + ", user=" + user + "]";
 	}
 
 
@@ -94,8 +86,8 @@ public class UserRoom {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((roomId == null) ? 0 : roomId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((room == null) ? 0 : room.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -109,15 +101,15 @@ public class UserRoom {
 		if (getClass() != obj.getClass())
 			return false;
 		UserRoom other = (UserRoom) obj;
-		if (roomId == null) {
-			if (other.roomId != null)
+		if (room == null) {
+			if (other.room != null)
 				return false;
-		} else if (!roomId.equals(other.roomId))
+		} else if (!room.equals(other.room))
 			return false;
-		if (userId == null) {
-			if (other.userId != null)
+		if (user == null) {
+			if (other.user != null)
 				return false;
-		} else if (!userId.equals(other.userId))
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}

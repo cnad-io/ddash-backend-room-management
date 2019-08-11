@@ -2,20 +2,22 @@ package io.cnad.api.roommanagement.model;
 
 import java.util.Date;
 import java.util.Set;
-import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -27,33 +29,38 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Room {
 
-	@Id
-	@JsonProperty("id")
 
 	
+	
+	@Id
+	@JsonProperty("id")	
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(
 		name = "UUID",
 		strategy = "org.hibernate.id.UUIDGenerator"
 	)
 	@Column(name = "id", updatable = false, nullable = false)
-	private UUID id;
+	private String id;
 	
 
 	@JsonProperty("date")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private Date date;
 
-    @OneToMany(mappedBy ="room")
-    @JoinColumn(name ="userId")
-    private Set<UserRoom> users;
-    
-	public Set<UserRoom> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<UserRoom> users) {
-		this.users = users;
-	}
+//    @OneToMany(mappedBy ="room" , cascade = CascadeType.ALL )
+//    @JsonManagedReference
+//    @JsonIgnore
+//    private Set<UserRoom> users;
+//    
+//    
+//    
+//	public Set<UserRoom> getUsers() {
+//		return users;
+//	}
+//
+//	public void setUsers(Set<UserRoom> users) {
+//		this.users = users;
+//	}
 
 	public Room() {
 		super();
@@ -64,19 +71,19 @@ public class Room {
 		this.date = date;
 	}
 	
-	public Room(UUID id, Date date) {
+	public Room(String id, Date date) {
 		super();
 		this.id = id;
 		this.date = date;
 	}
 
 	@JsonProperty("id")
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
 
 	@JsonProperty("id")
-	public void setId(UUID id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -8,12 +8,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.jboss.logging.Logger;
+
 import io.cnad.api.roommanagement.model.Room;
+import io.cnad.api.roommanagement.model.User;
 import io.cnad.api.roommanagement.model.UserRoom;
 
 @ApplicationScoped
 public class RoomController {
 
+	
+	private static final Logger LOGGER = Logger.getLogger(Room.class.getName());
+
+	
+	
 	@PersistenceContext
     EntityManager em;
 	
@@ -23,11 +31,15 @@ public class RoomController {
 	}
 	
 	public Room getRoom(String roomId) {
-		return em.find(Room.class, UUID.fromString(roomId));
+		LOGGER.info(UUID.fromString(roomId));
+		return em.find(Room.class, roomId);
 	}
 	
 	public UserRoom getUserRoom(String roomId, String userId) {
-		return em.find(UserRoom.class,new UserRoom(UUID.fromString(roomId), userId));
+		LOGGER.info("userId -> " +userId);
+		LOGGER.info("roomId -> " +roomId);
+
+		return em.find(UserRoom.class,new UserRoom(new Room(roomId,null), new User(userId,null)));
 	}
 	
 
@@ -43,7 +55,7 @@ public class RoomController {
 	
 	@Transactional
 	public void AddUser(UserRoom userRoom) {
-		em.merge(userRoom);
+		em.persist(userRoom);
 	}
 	
 	@Transactional

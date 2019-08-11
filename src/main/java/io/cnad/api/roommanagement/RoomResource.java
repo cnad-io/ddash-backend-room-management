@@ -23,6 +23,7 @@ import org.jboss.logging.Logger;
 
 import io.cnad.api.roommanagement.controller.RoomController;
 import io.cnad.api.roommanagement.model.Room;
+import io.cnad.api.roommanagement.model.User;
 import io.cnad.api.roommanagement.model.UserRoom;
 
 @Path("/api")
@@ -37,13 +38,13 @@ public class RoomResource {
 	@Path("/rooms")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllRooms() {
-		LOGGER.info("Get all function users requested.");
+		LOGGER.info("Get all function rooms requested.");
 		List<Room> result = roomController.findRooms();
-		LOGGER.debug("Find users executed.");
+		LOGGER.debug("Find rooms executed.");
 		LOGGER.trace(result);
 		if (result.size() == 0) {
-			LOGGER.info("Get all users respond Users not available.");
-			return error(Status.NOT_FOUND.getStatusCode(), "Users not available");
+			LOGGER.info("Get all Rooms respond Rooms not available.");
+			return error(Status.NOT_FOUND.getStatusCode(), "Rooms not available");
 		}
 		LOGGER.info("Get all users function respond a user list.");
 		return Response.ok(result).build();
@@ -98,7 +99,7 @@ public class RoomResource {
 		}
 		try {
 			
-			roomController.AddUser(new UserRoom(UUID.fromString(roomId), userId));
+			roomController.AddUser(new UserRoom(new Room(roomId,null), new User(userId,null)));
 			LOGGER.debug("Find user executed.");
 	
 			return Response.ok().status(200).build();
