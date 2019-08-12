@@ -2,11 +2,9 @@ package io.cnad.api.roommanagement;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.json.Json;
-import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,7 +21,6 @@ import org.jboss.logging.Logger;
 
 import io.cnad.api.roommanagement.controller.RoomController;
 import io.cnad.api.roommanagement.model.Room;
-import io.cnad.api.roommanagement.model.User;
 import io.cnad.api.roommanagement.model.UserRoom;
 
 @Path("/api")
@@ -99,7 +96,7 @@ public class RoomResource {
 		}
 		try {
 			
-			roomController.AddUser(new UserRoom(new Room(roomId,null), new User(userId,null)));
+			roomController.AddUser(new UserRoom(new Room(roomId,null), userId));
 			LOGGER.debug("Find user executed.");
 	
 			return Response.ok().status(200).build();

@@ -1,0 +1,111 @@
+---
+openshift_cluster_content:
+- object: base
+  content:
+    # - name: ci-cd
+    #   template: "{{ inventory_dir }}/../templates/project/project-request-template.yml"
+    #   params: "{{ inventory_dir }}/../params/project/{{ ci_cd_namespace }}"
+    #   action: create
+    #   tags:
+    #   - project-request
+    #   - base
+    - name: non-prod
+      template: "{{ inventory_dir }}/../templates/project/project-request-template.yml"
+      params: "{{ inventory_dir }}/../params/project/{{ non_prod_namespace }}"
+      action: create
+      tags:
+      - project-request
+      - base
+    - name: prod
+      template: "{{ inventory_dir }}/../templates/project/project-request-template.yml"
+      params: "{{ inventory_dir }}/../params/project/{{ prod_namespace }}"
+      action: create
+      tags:
+      - project-request
+      - base
+- object: build
+  content:
+    - name: secret
+      template: "{{ inventory_dir }}/../templates/room-management/git-secret-template.yml"
+      params_from_vars:
+        SECRET_NAME: git-auth
+        USERNAME: "{{ encrypted_password | b64encode }}"
+        PASSWORD: "{{ encrypted_password | b64encode }}"
+      # namespace: "{{ ci_cd_namespace }}"
+      namespace: "{{ non_prod_namespace }}"
+      tags:
+      - room-management
+      - secret
+      - build
+    # - name: pipeline-ci
+    #   template: "{{ inventory_dir }}/../templates/room-management/pipeline-template.yml"
+    #   params: "{{ inventory_dir }}/../params/room-management/pipeline-ci"
+    #   # namespace: "{{ ci_cd_namespace }}"
+    #   namespace: "{{ non_prod_namespace }}"
+    #   tags:
+    #   - room-management
+    #   - pipeline-ci
+    #   - build
+    - name: pipeline-cd
+      template: "{{ inventory_dir }}/../templates/room-management/pipeline-template.yml"
+      params: "{{ inventory_dir }}/../params/room-management/pipeline-cd"
+      # namespace: "{{ ci_cd_namespace }}"
+      namespace: "{{ non_prod_namespace }}"
+      tags:
+      - room-management
+      - pipeline-cd
+      - build
+    - name: unique-build
+      template: "{{ inventory_dir }}/../templates/room-management/build-docker-template.yml"
+      params: "{{ inventory_dir }}/../params/room-management/build"
+      namespace: "{{ non_prod_namespace }}"
+      tags:
+      - room-management
+      - unique-build
+      - build
+- object: deploy-non-prod
+  content:
+    - name: service
+      template: "{{ inventory_dir }}/../templates/room-management/deploy-template.yml"
+      params: "{{ inventory_dir }}/../params/room-management/deploy-non-prod"
+      namespace: "{{ non_prod_namespace }}"
+      tags:
+      - room-management
+      - service
+      - non-prod
+    - name: database
+      template: "{{ inventory_dir }}/../templates/room-management/mariadb-template-ephemeral.yml"
+      params: "{{ inventory_dir }}/../params/room-management/mariadb-non-prod"
+      namespace: "{{ non_prod_namespace }}"
+      tags:
+      - room-management
+      - database
+      - non-prod
+- object: deploy-prod
+  content:
+    - name: service-blue
+      template: "{{ inventory_dir }}/../templates/room-management/deploy-bg-template.yml"
+      params: "{{ inventory_dir }}/../params/room-management/deploy-prod-blue"
+      namespace: "{{ prod_namespace }}"
+      tags:
+      - room-management
+      - blue
+      - service
+      - prod
+    - name: service-green
+      template: "{{ inventory_dir }}/../templates/room-management/deploy-bg-template.yml"
+      params: "{{ inventory_dir }}/../params/room-management/deploy-prod-green"
+      namespace: "{{ prod_namespace }}"
+      tags:
+      - room-management
+      - green
+      - service
+      - prod
+    - name: database
+      template: "{{ inventory_dir }}/../templates/room-management/mariadb-template-ephemeral.yml"
+      params: "{{ inventory_dir }}/../params/room-management/mariadb-prod"
+      namespace: "{{ prod_namespace }}"
+      tags:
+      - room-management
+      - database
+      - prod

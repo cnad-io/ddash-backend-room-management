@@ -1,0 +1,81 @@
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: build-template
+  system: dino-dush
+  app: room-management
+  kind: quarkus
+metadata:
+  name: build-template
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: '${APP_NAME}'
+      system: dino-dush
+      kind: quarkus
+    name: '${APP_NAME}'
+  spec: {}
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: ${APP_NAME}
+      system: dino-dush
+      kind: quarkus
+    name: ${APP_NAME}
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    postCommit: {}
+    output:
+      to:
+        kind: ImageStreamTag
+        name: '${APP_NAME}:${BUILD_TAG}'
+    resources:
+      limits:
+        cpu: '${CPU_LIMIT}'
+        memory: '${MEMORY_LIMIT}'
+      requests:
+        cpu: '${CPU_REQUEST}'
+        memory: '${MEMORY_REQUEST}'
+    runPolicy: Serial
+    source:
+      binary: {}
+      type: Binary
+    strategy:
+      dockerStrategy:
+        dockerfilePath: src/main/docker/Dockerfile.native
+    successfulBuildsHistoryLimit: 5
+    triggers: []
+  status: {}
+parameters:
+- name: CPU_REQUEST
+  required: true
+  value: 100m
+- name: CPU_LIMIT
+  required: true
+  value: "4"
+- name: MEMORY_REQUEST
+  required: true
+  value: 100Mi
+- name: MEMORY_LIMIT
+  required: true
+  value: 4Gi
+- name: APP_NAME
+  required: true
+  value: room-management
+- name: BUILD_TAG
+  required: true
+  value: latest
+- name: GIT_URL
+  required: true
+  value: https://github.com/cnad-io/ddash-backend-room-management.git
+- name: GIT_BRANCH
+  required: true
+  value: master
+- name: GIT_CONTEXT_DIR
+- name: SOURCE_SECRET
+  value: git-auth

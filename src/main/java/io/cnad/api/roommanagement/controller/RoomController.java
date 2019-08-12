@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import io.cnad.api.roommanagement.model.Room;
-import io.cnad.api.roommanagement.model.User;
 import io.cnad.api.roommanagement.model.UserRoom;
 
 @ApplicationScoped
@@ -39,7 +38,7 @@ public class RoomController {
 		LOGGER.info("userId -> " +userId);
 		LOGGER.info("roomId -> " +roomId);
 
-		return em.find(UserRoom.class,new UserRoom(new Room(roomId,null), new User(userId,null)));
+		return em.find(UserRoom.class,new UserRoom(new Room(roomId,null), userId));
 	}
 	
 

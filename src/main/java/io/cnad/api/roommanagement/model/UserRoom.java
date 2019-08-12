@@ -24,15 +24,12 @@ public class UserRoom implements Serializable{
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @JoinColumn(name = "roomId", referencedColumnName = "id")
     @JsonBackReference
 	private Room room;
 	
     @Id
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-	@JsonBackReference
-	private User user;
+	private String userId;
 
 	private long score;
 	
@@ -52,33 +49,33 @@ public class UserRoom implements Serializable{
 	}
 
 	
-	public UserRoom(Room room, User user) {
+	public UserRoom(Room room, String userId) {
 		super();
-		this.user = user;
+		this.userId = userId;
 		this.room = room;
 	}
-	@JsonProperty("roomid")
+	@JsonProperty("roomId")
 	public Room getRoom() {
 		return room;
 	}
 	
 	
-	@JsonProperty("userid")
-	public User getUser() {
-		return user;
+	@JsonProperty("userId")
+	public String getUserId() {
+		return userId;
 	}
 
 	public void setRoom(Room room) {
 		this.room = room;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(String userId) {
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
-		return "UsersRoom [room=" + room + ", user=" + user + "]";
+		return "UsersRoom [room=" + room + ", userId=" + userId + "]";
 	}
 
 
@@ -87,7 +84,7 @@ public class UserRoom implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((room == null) ? 0 : room.hashCode());
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -106,10 +103,10 @@ public class UserRoom implements Serializable{
 				return false;
 		} else if (!room.equals(other.room))
 			return false;
-		if (user == null) {
-			if (other.user != null)
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!user.equals(other.user))
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
