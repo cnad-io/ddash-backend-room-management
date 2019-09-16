@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "roomId", "userId" , "score" })
 @NamedQueries({ 
-	@NamedQuery(name = "UserRooms.findAll", query = "SELECT f FROM UserRoom f")
+	@NamedQuery(name = "UserRooms.findAll", query = "SELECT f FROM UserRoom f"),
+	@NamedQuery(name = "UserRooms.findAllByRoomId", query = "SELECT f FROM UserRoom f WHERE f.room = :room") 
 })
 public class UserRoom implements Serializable{
 

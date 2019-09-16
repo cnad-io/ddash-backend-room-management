@@ -50,7 +50,7 @@ public class RoomResource {
 	@GET
 	@Path("/room/{roomId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUser(@PathParam("roomId") String roomId) {
+	public Response getRoom(@PathParam("roomId") String roomId) {
 		LOGGER.info("Get room function requested.");
 		LOGGER.trace(roomId);
 		Room room = roomController.getRoom(roomId);
@@ -64,6 +64,22 @@ public class RoomResource {
 		return Response.ok(room).build();
 	}
 	
+	@GET
+	@Path("/room/{roomId}/users")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUsersRoom(@PathParam("roomId") String roomId) {
+		LOGGER.info("Get room function requested.");
+		LOGGER.trace(roomId);
+		List<UserRoom> users = roomController.getUsersRoom(roomId);
+		LOGGER.debug("Find room executed.");
+		if (users == null) {
+			LOGGER.warn("Users in room with id of " + roomId + " do not exists.");
+			return error(Status.NOT_FOUND.getStatusCode(), "Users in room with id of  " + roomId + " do not exists.");
+		}
+		LOGGER.trace(users);
+		LOGGER.info("Get room function respond the requested room.");
+		return Response.ok(users).build();
+	}
 
 	@POST
 	@Path("/create")

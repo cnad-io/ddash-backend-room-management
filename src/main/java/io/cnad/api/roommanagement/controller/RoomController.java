@@ -42,6 +42,15 @@ public class RoomController {
 	}
 	
 
+	public List<UserRoom> getUsersRoom(String roomId) {
+		LOGGER.info("roomId -> " +roomId);
+
+		return em.createNamedQuery("UserRooms.findAllByRoomId", UserRoom.class).setParameter("room", new Room(roomId,null)).getResultList();
+
+	}
+	
+	
+	
 	@Transactional
 	public void createRoom(Room room) {
 		em.persist(room);
