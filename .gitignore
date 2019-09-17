@@ -1,2 +1,3 @@
 /target/
 /bin/
+.openshift-applier/encrypted-vars.yml

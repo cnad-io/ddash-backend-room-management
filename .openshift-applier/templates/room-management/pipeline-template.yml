@@ -3,7 +3,7 @@ apiVersion: template.openshift.io/v1
 kind: Template
 labels:
   template: pipeline-template
-  system: dino-dush
+  system: dino-dash
   app: room-management
   kind: quarkus
 metadata:
@@ -15,7 +15,7 @@ objects:
     labels:
       build: ${APP_NAME}
       app: ${APP_NAME}
-      system: dino-dush
+      system: dino-dash
       kind: quarkus
     name: ${APP_NAME}
   spec:
