@@ -23,12 +23,7 @@ module.exports = function (fastify, opts, next) {
     options: Object.assign({}, opts)
   })
 
-  fastify.listen(8080, '0.0.0.0', (err, address) => {
-    if (err) {
-      fastify.log.error(err)
-      process.exit(1)
-    }
-  })
+  fastify.listen(8080)
   // Make sure to call next when done
   next()
 }
