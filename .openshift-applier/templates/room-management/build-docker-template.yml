@@ -5,7 +5,7 @@ labels:
   template: build-template
   system: dino-dash
   app: room-management
-  kind: quarkus
+  kind: nodejs
 metadata:
   name: build-template
 objects:
@@ -15,7 +15,7 @@ objects:
     labels:
       app: '${APP_NAME}'
       system: dino-dash
-      kind: quarkus
+      kind: nodejs
     name: '${APP_NAME}'
   spec: {}
 - apiVersion: build.openshift.io/v1
@@ -24,7 +24,7 @@ objects:
     labels:
       app: ${APP_NAME}
       system: dino-dash
-      kind: quarkus
+      kind: nodejs
     name: ${APP_NAME}
   spec:
     failedBuildsHistoryLimit: 5
@@ -43,11 +43,19 @@ objects:
         memory: '${MEMORY_REQUEST}'
     runPolicy: Serial
     source:
-      binary: {}
-      type: Binary
+      contextDir: ${GIT_CONTEXT_DIR}
+      git:
+        ref: ${GIT_BRANCH}
+        uri: '${GIT_URL}'
+      type: Git
+      sourceSecret:
+        name: "${SOURCE_SECRET}"
     strategy:
-      dockerStrategy:
-        dockerfilePath: src/main/docker/Dockerfile.native
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nodejs:10
+          namespace: openshift
     successfulBuildsHistoryLimit: 5
     triggers: []
   status: {}

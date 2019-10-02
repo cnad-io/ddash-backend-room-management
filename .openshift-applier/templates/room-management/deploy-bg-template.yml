@@ -5,7 +5,7 @@ labels:
   template: deploy-bg-template
   system: dino-dash
   app: room-management
-  kind: quarkus
+  kind: nodejs
 metadata:
   name: deploy-bg-template
 objects:
@@ -15,7 +15,7 @@ objects:
     labels:
       system: dino-dash
       app: ${APP_NAME}
-      kind: quarkus
+      kind: nodejs
     name: ${APP_NAME}
   spec: {}
 - apiVersion: route.openshift.io/v1
@@ -24,7 +24,7 @@ objects:
     labels:
       system: dino-dash
       app: ${APP_NAME}
-      kind: quarkus
+      kind: nodejs
     name: ${APP_NAME}
   spec:
     port:
@@ -40,17 +40,19 @@ objects:
     labels:
       system: dino-dash
       app: ${APP_NAME}
-      kind: quarkus
+      kind: nodejs
       mode: ${DEPLOYMENT_MODE}
     name: ${APP_NAME}-${DEPLOYMENT_MODE}
   spec:
     ports:
     - name: 8080-tcp
       port: 8080
+      protocol: TCP
+      targetPort: 8080
     selector:
       system: dino-dash
       app: ${APP_NAME}
-      kind: quarkus
+      kind: nodejs
       mode: ${DEPLOYMENT_MODE}
 - apiVersion: v1
   kind: DeploymentConfig
@@ -58,7 +60,7 @@ objects:
     labels:
       system: dino-dash
       app: ${APP_NAME}
-      kind: quarkus
+      kind: nodejs
       mode: ${DEPLOYMENT_MODE}
     annotations:
       template.alpha.openshift.io/wait-for-ready: "true"
@@ -70,7 +72,7 @@ objects:
     selector:
       system: dino-dash
       app: ${APP_NAME}
-      kind: quarkus
+      kind: nodejs
       mode: ${DEPLOYMENT_MODE}
     strategy:
       activeDeadlineSeconds: 21600
@@ -94,7 +96,7 @@ objects:
         labels:
           system: dino-dash
           app: ${APP_NAME}
-          kind: quarkus
+          kind: nodejs
           mode: ${DEPLOYMENT_MODE}
       spec:
         containers:
