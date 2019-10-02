@@ -5,7 +5,7 @@ labels:
   template: deploy-template
   system: dino-dash
   app: room-management
-  kind: quarkus
+  kind: nodejs
 metadata:
   name: deploy-template
 objects:
@@ -28,7 +28,7 @@ objects:
     name: ${APP_NAME}
   spec:
     port:
-      targetPort: service
+      targetPort: 8080-tcp
     to:
       kind: Service
       name: ${APP_NAME}
