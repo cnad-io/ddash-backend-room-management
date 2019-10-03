@@ -5,6 +5,7 @@ const AutoLoad = require('fastify-autoload')
 
 module.exports = function (fastify, opts, next) {
   // Place here your custom code!
+  fastify.listen(8080)
 
   // Do not touch the following lines
 
@@ -23,7 +24,6 @@ module.exports = function (fastify, opts, next) {
     options: Object.assign({}, opts)
   })
 
-  fastify.listen(8080)
   // Make sure to call next when done
   next()
 }
