@@ -3,10 +3,10 @@
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME || 'database',
-  process.env.DB_USER || 'root',
-  process.env.DB_PASS || 'password', {
-    host: process.env.DB_HOST || 'localhost',
+  process.env.DATABASE_NAME || 'roomdb',
+  process.env.DATABASE_USERNAME || 'root',
+  process.env.DATABASE_PASSWORD || 'password', {
+    host: process.env.DATABASE_HOST || 'localhost',
     dialect: process.env.DB_DIALECT || 'mariadb'
   })
 

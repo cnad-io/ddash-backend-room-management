@@ -3,5 +3,6 @@
 # MEMORY_REQUEST=
 # MEMORY_LIMIT=
 APP_NAME=room-management
-DATABASE_URL=jdbc:mariadb://room-management-db:3306/roomdb
+DATABASE_HOST=room-management-db
+DATABASE_NAME=roomdb
 PIPELINES_NAMESPACE=dino-dash-non-prod
