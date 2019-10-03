@@ -20,7 +20,7 @@ User.init({
     type: Sequelize.UUID,
     allowNull: false,
     primaryKey: true,
-    defaultValue: uuid()
+    defaultValue: Sequelize.UUIDV4
 
   },
   score: {
@@ -31,6 +31,7 @@ User.init({
   modelName: 'users-room'
 })
 
+User.b
 class Room extends Model {}
 
 Room.init({
