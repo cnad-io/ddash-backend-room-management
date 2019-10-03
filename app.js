@@ -6,7 +6,8 @@ const AutoLoad = require('fastify-autoload')
 module.exports = function (fastify, opts, next) {
   // Place here your custom code!
   fastify.listen(8080)
-
+  console.log('Error starting server:',  opts)
+  
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
@@ -16,12 +17,18 @@ module.exports = function (fastify, opts, next) {
     dir: path.join(__dirname, 'plugins'),
     options: Object.assign({}, opts)
   })
-
+  
   // This loads all plugins defined in services
   // define your routes in one of these
   fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'services'),
     options: Object.assign({}, opts)
+  })
+  fastify.listen(8080,'0.0.0.0')
+  .then((address) => console.log(`server listening on ${address}`))
+  .catch(err => {
+    console.log('Error starting server:', err)
+    //process.exit(1)
   })
 
   // Make sure to call next when done
