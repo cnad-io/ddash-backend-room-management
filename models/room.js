@@ -1,5 +1,6 @@
 'use strict'
 
+const uuid = require('uuid/v4');
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize(
@@ -16,9 +17,11 @@ class User extends Model {}
 
 User.init({
   id: {
-    type: Sequelize.STRING,
+    type: Sequelize.UUID,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    defaultValue: uuid()
+
   },
   score: {
     type: Sequelize.DATE
