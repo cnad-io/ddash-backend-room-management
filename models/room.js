@@ -49,8 +49,8 @@ Room.hasMany(User, {
   foreignKey: 'room_id'
 })
 
-if (process.env.NODE_ENV !== 'production') {
+//if (process.env.NODE_ENV !== 'production') {
   sequelize.sync()
-}
+//}
 
 module.exports = Room

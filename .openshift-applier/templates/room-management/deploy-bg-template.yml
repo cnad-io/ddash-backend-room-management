@@ -101,8 +101,10 @@ objects:
       spec:
         containers:
         - env:
-            - name: DATABASE_URL
-              value: ${DATABASE_URL}
+            - name: DATABASE_HOST
+              value: ${DATABASE_HOST}
+            - name: DATABASE_NAME
+              value: ${DATABASE_NAME}
             - name: DATABASE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -185,9 +187,12 @@ parameters:
 - name: APP_NAME
   required: true
   value: room-management
-- name: DATABASE_URL
+- name: DATABASE_HOST
   required: true
-  value: jdbc:mariadb://room-management-db:3306/roomdb
+  value: room-management-db
+- name: DATABASE_NAME
+  required: true
+  value: roomdb
 - name: PIPELINES_NAMESPACE
   required: true
 - name: DEPLOYER_USER
