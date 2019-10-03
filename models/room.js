@@ -17,10 +17,10 @@ class User extends Model {}
 
 User.init({
   id: {
-    type: Sequelize.UUID,
+    type: Sequelize.STRING,
     allowNull: false,
     primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
+    
 
   },
   score: {
@@ -31,14 +31,16 @@ User.init({
   modelName: 'users-room'
 })
 
-User.b
+
+
 class Room extends Model {}
 
 Room.init({
   id: {
-    type: Sequelize.STRING,
+    type: Sequelize.UUID,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    defaultValue: Sequelize.UUIDV4
   },
   date: {
     type: Sequelize.DATEONLY
