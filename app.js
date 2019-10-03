@@ -5,9 +5,7 @@ const AutoLoad = require('fastify-autoload')
 
 module.exports = function (fastify, opts, next) {
   // Place here your custom code!
-  fastify.listen(8080)
-  console.log('Error starting server:',  opts)
-  
+   
   // Do not touch the following lines
 
   // This loads all plugins defined in plugins
@@ -24,6 +22,7 @@ module.exports = function (fastify, opts, next) {
     dir: path.join(__dirname, 'services'),
     options: Object.assign({}, opts)
   })
+  
   fastify.listen(8080,'0.0.0.0')
   .then((address) => console.log(`server listening on ${address}`))
   .catch(err => {
