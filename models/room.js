@@ -51,7 +51,7 @@ Room.init({
 })
 
 Room.hasMany(User, {
-  as: 'playersList',
+  as: 'playerList',
   foreignKey: 'room_id'
 })
 
