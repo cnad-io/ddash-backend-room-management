@@ -7,6 +7,20 @@ const logger = require('pino')({
 var model = require('../models/room')
 
 module.exports = function (fastify, opts, next) {
+  fastify.get('/api/rooms', function (request, reply) {
+    model.room.findAll().then(function (rooms) {
+      reply
+        .code(200)
+        .header('Content-Type', 'application/json; charset=utf-8')
+        .send(rooms)
+    }).catch(function (error) {
+      reply
+        .code(500)
+        .header('Content-Type', 'application/json; charset=utf-8')
+        .send(error)
+    })
+  })
+
   fastify.get('/api/room/:roomId', function (request, reply) {
     logger.debug("Requesting room", request.params.roomId)
     if (!request.params.roomId) {
