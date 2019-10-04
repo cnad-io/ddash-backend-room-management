@@ -55,8 +55,7 @@ parameters:
   value: develop
 - name: GIT_CONTEXT_DIR
 - name: GITHUB_SECRET
-  from: '[a-zA-Z0-9]{40}'
-  generate: expression
+  value: 1hFRgDvB1FgeV3seAWhJP8udkxoHEX68YQtB2w1B
 - name: GENERIC_SECRET
   from: '[a-zA-Z0-9]{40}'
   generate: expression
