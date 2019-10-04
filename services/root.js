@@ -18,7 +18,7 @@ module.exports = function (fastify, opts, next) {
   })
 
   fastify.get('/api/room/:roomId', function (request, reply) {
-    Room.findByPk(request.query.roomId).then(function (room) {
+    Room.findByPk(request.roomId).then(function (room) {
       reply
         .code(200)
         .header('Content-Type', 'application/json; charset=utf-8')
@@ -32,7 +32,7 @@ module.exports = function (fastify, opts, next) {
   })
 
   fastify.get('/api/room/:roomId/users', function (request, reply) {
-    Room.findByPk(request.query.roomId).then(function (room) {
+    Room.findByPk(request.roomId).then(function (room) {
       reply
         .code(200)
         .header('Content-Type', 'application/json; charset=utf-8')
