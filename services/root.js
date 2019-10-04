@@ -42,7 +42,7 @@ module.exports = function (fastify, opts, next) {
       reply
         .code(200)
         .header('Content-Type', 'application/json; charset=utf-8')
-        .send(room.getUsers());
+        .send(room.getUsers);
     }).catch(function (error) {
       reply
         .code(500)
