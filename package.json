@@ -12,7 +12,7 @@
     "start": "fastify start -l info app.js",
     "dev": "fastify start -l info -P app.js",
     "lint": "standard --fix",
-    "db:docker-run": "docker run --name mariadb -e MYSQL_USERNAME=username -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=database -p 3306:3306 -d mariadb",
+    "db:docker-run": "docker run --name mariadb -e MYSQL_USERNAME=username -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=roomdb -p 3306:3306 -d mariadb",
     "db:docker-start": "docker start mariadb",
     "db:delete": "docker rm mariadb -f"
   },

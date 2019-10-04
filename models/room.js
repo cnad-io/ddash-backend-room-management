@@ -1,6 +1,5 @@
 'use strict'
 
-const uuid = require('uuid/v4');
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize(
@@ -8,7 +7,8 @@ const sequelize = new Sequelize(
   process.env.DATABASE_USERNAME || 'root',
   process.env.DATABASE_PASSWORD || 'password', {
     host: process.env.DATABASE_HOST || 'localhost',
-    dialect: process.env.DB_DIALECT || 'mariadb'
+    port: process.env.DATABASE_PORT || 3306,
+    dialect: process.env.DATABASE_DIALECT || 'mariadb'
   })
 
 const Model = Sequelize.Model
@@ -16,22 +16,17 @@ const Model = Sequelize.Model
 class User extends Model {}
 
 User.init({
-  id: {
+  username: {
     type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
-    
-
+    allowNull: false
   },
   score: {
-    type: Sequelize.DATE
+    type: Sequelize.INTEGER
   }
 }, {
   sequelize,
-  modelName: 'users-room'
+  modelName: 'user_room'
 })
-
-
 
 class Room extends Model {}
 
@@ -41,9 +36,6 @@ Room.init({
     allowNull: false,
     primaryKey: true,
     defaultValue: Sequelize.UUIDV4
-  },
-  date: {
-    type: Sequelize.DATEONLY
   }
 }, {
   sequelize,
@@ -51,10 +43,13 @@ Room.init({
 })
 
 User.belongsTo(Room);
-Room.hasMany(User);
+Room.hasMany(User, { as: 'users' });
 
 //if (process.env.NODE_ENV !== 'production') {
   sequelize.sync()
 //}
 
-module.exports = Room
+module.exports = {
+  room: Room,
+  user: User
+}
