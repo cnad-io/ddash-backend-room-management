@@ -53,6 +53,7 @@ Room.init({
 Room.hasMany(User, {
   foreignKey: 'room_id'
 })
+User.belongsTo(Room);
 
 //if (process.env.NODE_ENV !== 'production') {
   sequelize.sync()
