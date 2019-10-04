@@ -36,7 +36,7 @@ module.exports = function (fastify, opts, next) {
       reply
         .code(200)
         .header('Content-Type', 'application/json; charset=utf-8')
-        .send(room.playerList)
+        .send(room.playersList)
     }).catch(function (error) {
       reply
         .code(500)
