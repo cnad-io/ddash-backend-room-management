@@ -1,4 +1,7 @@
 'use strict'
+var logger = require('pino')({
+  'level': process.env.LOG_LEVEL || 'info'
+});
 
 var Room = require('../models/room')
 
@@ -18,6 +21,7 @@ module.exports = function (fastify, opts, next) {
   })
 
   fastify.get('/api/room/:roomId', function (request, reply) {
+    logger.info("requesting room"+ request.roomId)
     Room.findByPk(request.roomId).then(function (room) {
       reply
         .code(200)
@@ -32,6 +36,8 @@ module.exports = function (fastify, opts, next) {
   })
 
   fastify.get('/api/room/:roomId/users', function (request, reply) {
+    logger.info("requesting user in room"+ request.roomId)
+
     Room.findByPk(request.roomId).then(function (room) {
       reply
         .code(200)
