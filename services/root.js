@@ -21,7 +21,7 @@ module.exports = function (fastify, opts, next) {
   })
 
   fastify.get('/api/room/:roomId', function (request, reply) {
-    logger.info("requesting room"+ request)
+    logger.info("requesting room"+ JSON.stringify(request))
     Room.findByPk(request.roomId).then(function (room) {
       reply
         .code(200)
@@ -36,7 +36,7 @@ module.exports = function (fastify, opts, next) {
   })
 
   fastify.get('/api/room/:roomId/users', function (request, reply) {
-    logger.info("requesting user in room"+ request)
+    logger.info("requesting user in room"+ JSON.stringify(request))
 
     Room.findByPk(request.roomId).then(function (room) {
       reply
