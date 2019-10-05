@@ -23,6 +23,14 @@ module.exports = function (fastify, opts, next) {
     options: Object.assign({}, opts)
   })
 
+
+  fastify.listen(3000,'0.0.0.0')
+  .then((address) => console.log(`server listening on ${address}`))
+  .catch(err => {
+    console.log('Error starting server:', err)
+    //process.exit(1)
+  })
+
   // Make sure to call next when done
   next()
 }
