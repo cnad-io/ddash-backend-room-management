@@ -16,7 +16,14 @@ const Model = Sequelize.Model
 class User extends Model {}
 
 User.init({
-  username: {
+   
+  id: {
+    type: Sequelize.UUID,
+    allowNull: false,    
+    primaryKey: true,
+    defaultValue: Sequelize.UUIDV4
+  },
+  nickname: {
     type: Sequelize.STRING,
     allowNull: false
   },

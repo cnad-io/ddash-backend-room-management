@@ -85,7 +85,7 @@ module.exports = function (fastify, opts, next) {
 
   fastify.put('/api/room/:roomId/addUser/:userId', function (request, reply) {
     model.user.create({
-      username: request.params.userId,
+      nickname: request.params.userId,
       score: 0,
       roomId: request.params.roomId
     }).then(function (user) {
