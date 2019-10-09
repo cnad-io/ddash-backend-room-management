@@ -28,7 +28,7 @@ objects:
     name: ${APP_NAME}
   spec:
     port:
-      targetPort: 8080-tcp
+      targetPort: 3000-tcp
     to:
       kind: Service
       name: ${APP_NAME}-${DEPLOYMENT_MODE}
@@ -45,16 +45,16 @@ objects:
     name: ${APP_NAME}-${DEPLOYMENT_MODE}
   spec:
     ports:
-    - name: 8080-tcp
-      port: 8080
+    - name: 3000-tcp
+      port: 3000
       protocol: TCP
-      targetPort: 8080
+      targetPort: 3000
     selector:
       system: dino-dash
       app: ${APP_NAME}
       kind: nodejs
       mode: ${DEPLOYMENT_MODE}
-- apiVersion: v1
+- apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
     labels:
@@ -122,21 +122,21 @@ objects:
             failureThreshold: 3
             httpGet:
               path: /health
-              port: 8080
+              port: 3000
               scheme: HTTP
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
           name: ${APP_NAME}
           ports:
-          - name: 8080-tcp
-            containerPort: 8080
+          - name: 3000-tcp
+            containerPort: 3000
             protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
               path: /health
-              port: 8080
+              port: 3000
               scheme: HTTP
             initialDelaySeconds: 1
             periodSeconds: 10
