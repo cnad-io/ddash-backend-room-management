@@ -63,6 +63,14 @@ openshift_cluster_content:
       - room-management
       - unique-build
       - build
+    - name: jenkins-deploy
+      template: "{{ inventory_dir }}/../templates/room-management/jenkins-template.yml"
+      params: "{{ inventory_dir }}/../params/room-management/pipeline-cd"
+      namespace: "{{ non_prod_namespace }}"
+      tags:
+      - jenkins-deploy
+      - unique-build
+      - build
 - object: deploy-non-prod
   content:
     - name: service
