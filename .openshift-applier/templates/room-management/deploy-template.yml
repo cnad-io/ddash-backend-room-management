@@ -109,7 +109,13 @@ objects:
           ports:
           - containerPort: 8080
             protocol: TCP
-          resources: {}
+          resources:
+            limits:
+              memory: '${MEMORY_LIMIT}'
+              cpu: '${CPU_LIMIT}'
+            requests:
+              cpu: '${CPU_REQUEST}'
+              memory: '${MEMORY_REQUEST}'
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
@@ -144,7 +150,7 @@ parameters:
   value: 100Mi
 - name: MEMORY_LIMIT
   required: true
-  value: 200Mi
+  value: 512Mi
 - name: APP_NAME
   required: true
   value: room-management
